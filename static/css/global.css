@@ -1,0 +1,43 @@
+:root {
+  --color-bg: #1e1e2e; /* Fundo principal */
+  --color-bg-secondary: #3c3c52; /* Fundo secundário */
+  --color-primary: #7aa2f7; /* Destaque (botões, links) */
+  --color-accent: #bb9af7; /* Acento (bordas, realces sutis) */
+  --color-text: #cdd6f4; /* Texto principal */
+  --color-text-secondary: #a6adc8; /* Texto secundário */
+  --color-error: #f7768e; /* Erros, alertas */
+  --color-success: #9ece6a; /* Sucesso, confirmações */
+}
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+/* Aplicando as cores */
+body {
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-family: "Arial", sans-serif;
+}
+
+a {
+  color: var(--color-primary);
+  text-decoration: none;
+}
+
+a:hover {
+  color: var(--color-accent);
+}
+
+button {
+  background-color: var(--color-primary);
+  color: var(--color-bg);
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: var(--color-accent);
+}
