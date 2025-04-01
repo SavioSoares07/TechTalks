@@ -13,6 +13,8 @@ func main() {
 
 	// Rotas
 	http.HandleFunc("/signup", handlers.FormRegisterHandler)
+	http.HandleFunc("/signin", handlers.FormLoginHandler)
+
 
 	fmt.Println("Servidor rodando na porta 8000")
 	http.ListenAndServe(":8000", nil)

@@ -4,38 +4,30 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Criar conta</title>
-    <link rel="stylesheet" href="/static/css/styleSignUp.css" />
+    <link rel="stylesheet" href="/static/css/styleSignIn.css" />
     <link rel="stylesheet" href="/static/css/global.css" />
   </head>
   <body>
     <main>
       <section id="banner">
-        <img src="../../static/img/banner.svg" alt="" />
+        <img src="../../static/img/log_in3.svg" alt="" />
       </section>
 
       <section id="form">
         <form class="form" action="/regustrar" method="post">
-          <p class="form-title">Crie sua conta gratis</p>
+          <p class="form-title">Faça seu login</p>
           <div class="input-container">
-            <input type="text" placeholder="Nome" required />
+            <input type="email" placeholder="Digite seu email" required />
             <span> </span>
           </div>
           <div class="input-container">
-            <input type="text" placeholder="Sobrenome" required />
-            <span> </span>
+            <input type="password" placeholder="Digite sua senha" required />
           </div>
-          <div class="input-container">
-            <input type="email" placeholder="Email" required />
-            <span> </span>
-          </div>
-          <div class="input-container">
-            <input type="password" placeholder="Senha" required />
-          </div>
-          <button type="submit" class="submit">Criar conta</button>
+          <button type="submit" class="submit">Entrar</button>
 
           <p class="signup-link">
             Já tem conta?
-            <a href="/templates/signin/index.html">Faça seu Login</a>
+            <a href="/templates/signup/index.html">Crie aqui</a>
           </p>
         </form>
       </section>

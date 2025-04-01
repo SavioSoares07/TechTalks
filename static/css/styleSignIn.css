@@ -9,12 +9,13 @@ main {
   height: 100vh;
 }
 section#banner img {
-  height: 510px;
-  width: 510px;
+  height: 650px;
+  width: 650px;
 }
 section#form {
   text-align: center;
 }
+
 /* From Uiverse.io by nathann09 */
 .form {
   background-color: #fff;
