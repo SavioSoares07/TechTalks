@@ -14,22 +14,32 @@
       </section>
 
       <section id="form">
-        <form class="form" action="/regustrar" method="post">
+        <form class="form" action="/register" method="post">
           <p class="form-title">Crie sua conta gratis</p>
           <div class="input-container">
-            <input type="text" placeholder="Nome" required />
+            <input name="name" type="text" placeholder="Nome" required />
             <span> </span>
           </div>
           <div class="input-container">
-            <input type="text" placeholder="Sobrenome" required />
+            <input
+              name="nickname"
+              type="text"
+              placeholder="Nickname"
+              required
+            />
             <span> </span>
           </div>
           <div class="input-container">
-            <input type="email" placeholder="Email" required />
+            <input name="email" type="email" placeholder="Email" required />
             <span> </span>
           </div>
           <div class="input-container">
-            <input type="password" placeholder="Senha" required />
+            <input
+              name="password"
+              type="password"
+              placeholder="Senha"
+              required
+            />
           </div>
           <button type="submit" class="submit">Criar conta</button>
 
