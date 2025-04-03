@@ -3,10 +3,22 @@ package handlers
 import (
 	"fmt"
 	"net/http"
+
+	validation "github.com/go-ozzo/ozzo-validation"
+
+	"techTalks/database"
 )
+
+func ValidateForm(name, nickname, email, password string)error{
+	return validation.Errors{
+		"name":     validation.Validate(name, validation.Required, validation.Length(3, 200)),
+		"nickname": validation.Validate(nickname, validation.Required, validation.Length(3, 50)),
+		"password": validation.Validate(password, validation.Required, validation.Length(6, 100)),
+	}.Filter()
+}
+
 func RegisterHandler(w http.ResponseWriter, r *http.Request){
 
-	fmt.Println("Entrou aqui")
 
 	//Validações Formulario
 	if r.Method != http.MethodPost{
@@ -20,15 +32,26 @@ func RegisterHandler(w http.ResponseWriter, r *http.Request){
 	}
 
 
-	//Ober dados Formularios
-	nome := r.FormValue("name")
+	//Obter dados Formularios
+	name := r.FormValue("name")
 	nickname := r.FormValue("nickname")
 	email := r.FormValue("email")
 	password := r.FormValue("password")
 
-	// Exibe os valores no console (apenas para teste)
-	fmt.Println("Nome:", nome)
-	fmt.Println("Sobrenome:", nickname)
-	fmt.Println("Email:", email)
-	fmt.Println("Senha:", password) 
+	
+
+	//Validação
+	if err := ValidateForm(name, nickname, email, password); err != nil{
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+
+	// Insere os dados no banco de dados
+	_, err := database.DB.Exec("INSERT INTO users (name, nickname, email, password) VALUES (?,?,?,?)", name, nickname, email, password)
+	if err != nil {
+		fmt.Println(err)
+		http.Error(w, "Erro ao salvar no banco de dados", http.StatusInternalServerError)
+		return
+	}
+	fmt.Println("Cadastro realizado com sucesso")
 }
