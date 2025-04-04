@@ -18,6 +18,7 @@ func main() {
 	http.HandleFunc("/signup", handlers.FormRegisterHandler)
 	http.HandleFunc("/signin", handlers.FormLoginHandler)
 	http.HandleFunc("/register", handlers.RegisterHandler)
+	http.HandleFunc("/home", handlers.HomeHandler)
 
 	database.ConnectionDB()
 	defer database.GetDB().Close()
