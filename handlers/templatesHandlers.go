@@ -37,4 +37,16 @@ func FormRegisterHandler(w http.ResponseWriter, r *http.Request) {
 	tmpl.Execute(w, nil)
 }
 
-//
+//Profile Page
+
+func ProfileHandler(w http.ResponseWriter, r *http.Request) {
+	tmpl, _ := template.ParseFiles("templates/profile/index.html")
+	tmpl.Execute(w, nil)
+}
+
+//Profile Page
+
+func PostHandler(w http.ResponseWriter, r *http.Request) {
+	tmpl, _ := template.ParseFiles("templates/post/index.html")
+	tmpl.Execute(w, nil)
+}
