@@ -1,0 +1,30 @@
+main {
+  text-align: center;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+main h1 {
+  padding-top: 30px;
+  text-transform: uppercase;
+  cursor: default;
+}
+main form {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+
+  max-width: 720px;
+}
+main form input,
+main form textarea {
+  border-radius: 10px;
+  background-color: transparent;
+  border: none;
+  border: 1px solid #ccc;
+}
+textarea {
+  resize: none;
+}

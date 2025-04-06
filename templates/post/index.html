@@ -4,10 +4,37 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="../../static/css/global.css" />
-
+    <link rel="stylesheet" href="../../static/css/stylePost.css" />
     <title>Criar post</title>
   </head>
   <body>
-    <h1>Pagina de post</h1>
+    <nav>
+      <h1 id="logo">Tech Talks</h1>
+
+      <ul>
+        <li><a href="/home">Home</a></li>
+        <li><a href="/post">Publicar</a></li>
+        <li><a href="/profile">Perfil</a></li>
+        <li><a href="/signin">Sair</a></li>
+      </ul>
+    </nav>
+
+    <main>
+      <h1>Faça sua postagem</h1>
+
+      <form method="post">
+        <label
+          >Título: <br />
+          <input type="text"
+        /></label>
+        <label
+          >Descrição:
+          <br />
+          <textarea></textarea>
+        </label>
+
+        <button>Postar</button>
+      </form>
+    </main>
   </body>
 </html>
