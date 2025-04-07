@@ -21,10 +21,21 @@ main form {
 main form input,
 main form textarea {
   border-radius: 10px;
+  padding: 20px;
   background-color: transparent;
   border: none;
   border: 1px solid #ccc;
+  color: #ccc;
+  width: 300px;
+  margin-bottom: 30px;
+}
+main form span {
+  align-self: start;
+  display: flex;
 }
 textarea {
   resize: none;
+}
+button {
+  color: #fff;
 }

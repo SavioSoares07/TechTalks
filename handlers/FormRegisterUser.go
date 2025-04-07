@@ -5,6 +5,7 @@ import (
 	"net/http"
 
 	validation "github.com/go-ozzo/ozzo-validation"
+	"golang.org/x/crypto/bcrypt"
 
 	"techTalks/database"
 )
@@ -17,8 +18,13 @@ func ValidateForm(name, nickname, email, password string)error{
 	}.Filter()
 }
 
-func RegisterHandler(w http.ResponseWriter, r *http.Request){
 
+func HashPassword(password string) (string, error){
+	hash, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
+	return string(hash), err
+}
+
+func RegisterHandler(w http.ResponseWriter, r *http.Request){
 
 	//Validações Formulario
 	if r.Method != http.MethodPost{
@@ -46,8 +52,16 @@ func RegisterHandler(w http.ResponseWriter, r *http.Request){
 		return
 	}
 
+
+	//Criação do Hash
+	hashedPassword, err := HashPassword(password)
+	if err != nil{
+		http.Error(w, "Erro ao criptografar a senha", http.StatusInternalServerError)
+		return
+	}
 	// Insere os dados no banco de dados
-	_, err := database.DB.Exec("INSERT INTO users (name, nickname, email, password) VALUES (?,?,?,?)", name, nickname, email, password)
+	_, err = database.DB.Exec("INSERT INTO users (name, nickname, email, password) VALUES (?,?,?,?)",
+	name, nickname, email, hashedPassword)
 	if err != nil {
 		fmt.Println(err)
 		http.Error(w, "Erro ao salvar no banco de dados", http.StatusInternalServerError)

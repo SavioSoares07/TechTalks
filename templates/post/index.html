@@ -22,15 +22,15 @@
     <main>
       <h1>Faça sua postagem</h1>
 
-      <form method="post">
+      <form method="post" action="/registerPost">
         <label
-          >Título: <br />
-          <input type="text"
+          ><span>Título:</span><br />
+          <input type="text" name="title"
         /></label>
         <label
-          >Descrição:
+          ><span>Descrição:</span>
           <br />
-          <textarea></textarea>
+          <textarea name="description"></textarea>
         </label>
 
         <button>Postar</button>
