@@ -22,6 +22,7 @@ func main() {
 	http.HandleFunc("/profile", handlers.ProfileHandler)
 	http.HandleFunc("/post", handlers.PostHandler)
 	http.HandleFunc("/registerPost", handlers.RegisterPostHandler)
+	http.HandleFunc("/login", handlers.LoginHandler)
 
 	database.ConnectionDB()
 	defer database.GetDB().Close()
