@@ -7,7 +7,7 @@ import (
 	validation "github.com/go-ozzo/ozzo-validation"
 	"golang.org/x/crypto/bcrypt"
 
-	"techTalks/database"
+	"techTalk/database"
 )
 
 func ValidateForm(name, nickname, email, password string)error{
@@ -67,5 +67,6 @@ func RegisterHandler(w http.ResponseWriter, r *http.Request){
 		http.Error(w, "Erro ao salvar no banco de dados", http.StatusInternalServerError)
 		return
 	}
-	fmt.Println("Cadastro realizado com sucesso")
+
+	http.Redirect(w,r,"/signin", http.StatusSeeOther)
 }

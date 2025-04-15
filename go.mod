@@ -1,4 +1,4 @@
-module techTalks
+module techTalk
 
 go 1.24.1
 

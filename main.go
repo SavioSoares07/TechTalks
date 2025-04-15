@@ -3,8 +3,8 @@ package main
 import (
 	"fmt"
 	"net/http"
-	"techTalks/database"
-	"techTalks/handlers"
+	"techTalk/database"
+	"techTalk/handlers"
 
 	_ "github.com/go-sql-driver/mysql"
 )

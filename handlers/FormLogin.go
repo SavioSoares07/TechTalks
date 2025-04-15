@@ -4,7 +4,7 @@ import (
 	"database/sql"
 	"fmt"
 	"net/http"
-	"techTalks/database"
+	"techTalk/database"
 
 	"golang.org/x/crypto/bcrypt"
 )
@@ -43,6 +43,14 @@ func LoginHandler(w http.ResponseWriter, r *http.Request){
 		return
 	}
 	
+
+	http.SetCookie(w, &http.Cookie{
+		Name: "user_id",
+		Value: userID,
+		Path: "/",
+		HttpOnly: true,
+	})
+
 	fmt.Println("Usuário logado com sucesso")
 	http.Redirect(w, r, "/home", http.StatusSeeOther)
 }
