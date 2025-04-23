@@ -32,7 +32,15 @@
             <small>{{.DateStr}}</small>
           </div>
 
-          <p>{{.Description}}</p>
+          <div class="card-body">
+            <p>{{.Description}}</p>
+          </div>
+
+          <div class="card-footer">
+            <input name="response" id="response" type="text"/>
+
+            <button>Postar</button>
+          </div>
         </div>
       </div>
       {{else}}

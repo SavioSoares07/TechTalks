@@ -19,6 +19,7 @@ func main() {
 	http.HandleFunc("/signin", handlers.FormLoginHandler)
 	http.HandleFunc("/register", handlers.RegisterHandler)
 	http.HandleFunc("/home", handlers.HomeHandler)
+	http.HandleFunc("/", handlers.HomeHandler)
 	http.HandleFunc("/profile", handlers.ProfileHandler)
 	http.HandleFunc("/post", handlers.PostHandler)
 	http.HandleFunc("/registerPost", handlers.RegisterPostHandler)

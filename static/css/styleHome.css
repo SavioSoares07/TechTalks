@@ -32,7 +32,10 @@ section.containerCards h1 {
   align-items: center;
   justify-content: space-between;
 }
-
+.containerCard .card-footer {
+  display: flex;
+  flex-direction: column;
+}
 .containerCard h2 {
   margin: 0;
   font-size: 1.5rem;
@@ -67,4 +70,51 @@ section.containerCards h1 {
 }
 .box-float:hover {
   transform: scale(1.1);
+}
+.containerCard .card-body {
+  padding: 10px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.containerCard .card-body p {
+  font-size: 1rem;
+  color: #444;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.containerCard .card-footer {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.containerCard .card-footer input[type="text"] {
+  flex: 1;
+  padding: 10px 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  transition: border-color 0.2s ease;
+}
+
+.containerCard .card-footer input[type="text"]:focus {
+  border-color: #888;
+  outline: none;
+}
+
+.containerCard .card-footer button {
+  background-color: #1976d2;
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.containerCard .card-footer button:hover {
+  background-color: #1565c0;
 }
