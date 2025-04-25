@@ -118,13 +118,32 @@ func ProfileHandler(w http.ResponseWriter, r *http.Request) {
 
 	var posts []Post
 	for rows.Next() {
-		var p Post
-		if err := rows.Scan( &p.Title, &p.Description, &p.CreatedAt); err != nil {
+		var (
+			id int
+			userID string
+			p Post
+			createdAtStr string
+		)
+	
+		if err := rows.Scan(&id, &userID, &p.Title, &p.Description, &createdAtStr); err != nil {
 			http.Error(w, "Erro ao ler os dados", http.StatusInternalServerError)
+			log.Printf("Erro scan profile: %v", err)
 			return
 		}
+	
+		parsedTime, err := time.Parse("2006-01-02 15:04:05", createdAtStr)
+		if err != nil {
+			log.Printf("Erro ao fazer parse da data: %v", err)
+			p.CreatedAt = time.Now()
+		} else {
+			loc, _ := time.LoadLocation("America/Sao_Paulo")
+			p.CreatedAt = parsedTime.In(loc)
+		}
+		p.DateStr = p.CreatedAt.Format("02/01/2006 15:04")
+	
 		posts = append(posts, p)
 	}
+	
 
 	tmpl, err := template.ParseFiles("templates/profile/index.html")
 	if err != nil {
@@ -138,8 +157,7 @@ func ProfileHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-//Profile Page
-
+	
 func PostHandler(w http.ResponseWriter, r *http.Request) {
 	tmpl, _ := template.ParseFiles("templates/post/index.html")
 	tmpl.Execute(w, nil)
