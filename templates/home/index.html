@@ -29,16 +29,21 @@
         <div class="cards"> 
           <div class="card-header">
             <h2>{{.Title}}</h2>
-            <small>{{.DateStr}}</small>
+            <small>{{.DateStr}} - por {{.AuthorName}}</small> 
           </div>
-
+    
           <div class="card-body">
+            {{if .ImageURL}}
+            <div class="card-image" style="margin-bottom: 10px;">
+              <img src="{{.ImageURL}}" alt="Imagem do post" style="max-width: 100%; height: auto; border-radius: 8px;">
+            </div>
+            {{end}}
+    
             <p>{{.Description}}</p>
           </div>
-
+    
           <div class="card-footer">
             <input name="response" id="response" type="text"/>
-
             <button>Postar</button>
           </div>
         </div>
@@ -47,6 +52,7 @@
       <p>Nenhum post adicionado.</p>
       {{end}}
     </section>
+    
 
     <a href="#logo">   
        <div class="box-float">

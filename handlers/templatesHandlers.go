@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"database/sql"
 	"fmt"
 	"html/template"
 	"log"
@@ -14,12 +15,15 @@ type Post struct{
 	Description string
 	CreatedAt time.Time
 	DateStr string
+	AuthorName string
+	ImageURL    string
 
 }
 
 //Home page
 
 func HomeHandler(w http.ResponseWriter, r *http.Request) {
+	
 	_, err := r.Cookie("user_id")
 	if err != nil {
 		http.Error(w, "Usuário não autenticado", http.StatusUnauthorized)
@@ -27,10 +31,12 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	rows, err := database.DB.Query(`
-		SELECT title, description, created_at
-		FROM posts
-		ORDER BY created_at DESC
-	`)
+SELECT p.title, p.description, p.created_at, p.image_url, u.nickname
+FROM posts p
+JOIN users u ON p.user_id = u.id
+ORDER BY p.created_at DESC
+`)
+
 	if err != nil {
 		http.Error(w, "Erro ao buscar posts", http.StatusInternalServerError)
 		log.Printf("Erro DB: %v", err)
@@ -41,29 +47,34 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) {
 	var posts []Post
 	for rows.Next() {
 		var p Post
-		var createdAtStr string // Recebe o valor bruto vindo do banco
-	
-		if err := rows.Scan(&p.Title, &p.Description, &createdAtStr); err != nil {
+		var createdAtStr string
+		var imageURL sql.NullString
+		
+		if err := rows.Scan(&p.Title, &p.Description, &createdAtStr, &imageURL, &p.AuthorName); err != nil {
 			http.Error(w, "Erro ao ler os dados", http.StatusInternalServerError)
 			log.Printf("Erro scan: %v", err)
 			return
 		}
+		
+		if imageURL.Valid {
+			p.ImageURL = imageURL.String
+		} else {
+			p.ImageURL = ""
+		}
 	
-		// Parse: ajustar de acordo com o formato real no banco
 		parsedTime, err := time.Parse("2006-01-02 15:04:05", createdAtStr)
 		if err != nil {
 			log.Printf("Erro ao fazer parse da data: %v", err)
-			p.CreatedAt = time.Now() // fallback
+			p.CreatedAt = time.Now()
 		} else {
 			loc, _ := time.LoadLocation("America/Sao_Paulo")
 			p.CreatedAt = parsedTime.In(loc)
 		}
-	
-		// Agora formata do jeito que quiser, exemplo: 15/04/2025 10:23
 		p.DateStr = p.CreatedAt.Format("02/01/2006 15:04")
 	
 		posts = append(posts, p)
 	}
+	
 	
 
 	tmpl, err := template.ParseFiles("templates/home/index.html")
@@ -162,3 +173,4 @@ func PostHandler(w http.ResponseWriter, r *http.Request) {
 	tmpl, _ := template.ParseFiles("templates/post/index.html")
 	tmpl.Execute(w, nil)
 }
+

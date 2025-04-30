@@ -82,6 +82,7 @@ section#form {
 
 .signup-link a {
   text-decoration: underline;
+  color: var(--color-links);
 }
 
 footer {

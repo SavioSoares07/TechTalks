@@ -24,6 +24,7 @@ func main() {
 	http.HandleFunc("/post", handlers.PostHandler)
 	http.HandleFunc("/registerPost", handlers.RegisterPostHandler)
 	http.HandleFunc("/login", handlers.LoginHandler)
+	http.Handle("/uploads/", http.StripPrefix("/uploads/", http.FileServer(http.Dir("./uploads"))))
 
 	database.ConnectionDB()
 	defer database.GetDB().Close()

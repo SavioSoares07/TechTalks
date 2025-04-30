@@ -22,15 +22,20 @@
     <main>
       <h1>Faça sua postagem</h1>
 
-      <form method="post" action="/registerPost">
-        <label
-          ><span>Título:</span><br />
-          <input required type="text" name="title"
-        /></label>
-        <label
-          ><span>Descrição:</span>
-          <br />
+      <form method="post" action="/registerPost" enctype="multipart/form-data">
+        <label>
+          <span>Título:</span><br />
+          <input required type="text" name="title" />
+        </label>
+
+        <label>
+          <span>Descrição:</span><br />
           <textarea required name="description"></textarea>
+        </label>
+
+        <label>
+          Adicionar imagem
+          <input type="file" name="image" accept="image/*" />
         </label>
 
         <button>Postar</button>

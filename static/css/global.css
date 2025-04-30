@@ -4,7 +4,8 @@
   --color-primary: #7aa2f7; /* Destaque (botões, links) */
   --color-accent: #bb9af7; /* Acento (bordas, realces sutis) */
   --color-text: #cdd6f4; /* Texto principal */
-  --color-text-secondary: #a6adc8; /* Texto secundário */
+  --color-links: #14457c;
+  --color-text-secondary: #384ea4; /* Texto secundário */
   --color-error: #f7768e; /* Erros, alertas */
   --color-success: #9ece6a; /* Sucesso, confirmações */
 }
