@@ -71,6 +71,21 @@ section.containerCards h1 {
 .box-float:hover {
   transform: scale(1.1);
 }
+
+.box-flot-add {
+  background-color: #1976d2;
+  padding: 20px;
+  bottom: 10px;
+  left: 10px;
+  border-radius: 100px;
+  position: fixed;
+  color: #fff;
+  transition: 500ms all;
+  cursor: pointer;
+}
+.box-float-add:hover {
+  transform: scale(1.1);
+}
 .containerCard .card-body {
   padding: 10px 0;
   border-bottom: 1px solid #eee;
@@ -117,4 +132,40 @@ section.containerCards h1 {
 
 .containerCard .card-footer button:hover {
   background-color: #1565c0;
+}
+.responses {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.response {
+  background-color: #f4f4f4;
+  border-left: 4px solid #4a90e2;
+  border-radius: 8px;
+  padding: 12px 16px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.response-content {
+  color: #333;
+  font-size: 15px;
+  margin-bottom: 6px;
+}
+
+.response-meta {
+  color: #777;
+  font-size: 12px;
+}
+
+.response-meta .author {
+  font-weight: bold;
+  color: #2a7ae2;
+}
+
+.no-responses {
+  font-style: italic;
+  color: #888;
+  padding: 8px;
 }

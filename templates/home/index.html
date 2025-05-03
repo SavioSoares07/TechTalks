@@ -20,16 +20,15 @@
         <li><a href="/signin">Sair</a></li>
       </ul>
     </nav>
-
     <section class="containerCards">
       <h1>Home</h1>
       <h2>Publicações</h2>
       {{range .}}
       <div class="containerCard">
-        <div class="cards"> 
+        <div class="cards">
           <div class="card-header">
             <h2>{{.Title}}</h2>
-            <small>{{.DateStr}} - por {{.AuthorName}}</small> 
+            <small>{{.DateStr}} - por {{.AuthorName}}</small>
           </div>
     
           <div class="card-body">
@@ -43,20 +42,47 @@
           </div>
     
           <div class="card-footer">
-            <input name="response" id="response" type="text"/>
-            <button>Postar</button>
+            <div class="card-footer">
+              <form method="POST" action="/responder">
+                <input type="hidden" name="post_id" value="{{.ID}}">
+                <input name="content" type="text" required placeholder="Escreva uma resposta..." />
+                <button type="submit">Postar</button>
+              </form>
+            </div>
+            
           </div>
+    
+          <div class="responses">
+            {{if .Responses}} 
+              {{range .Responses}}
+              <div class="response">
+                <p>{{.Content}}</p>
+                <small>Postado por {{.AuthorName}} em {{.CreatedAt.Format "02/01/2006 15:04"}}</small>
+              </div>
+              {{end}}
+            {{else}}
+              <p>Nenhuma resposta ainda.</p>
+            {{end}}
+          </div>    
         </div>
       </div>
       {{else}}
-      <p>Nenhum post adicionado.</p>
+        <p>Nenhum post adicionado.</p>
       {{end}}
     </section>
+    
     
 
     <a href="#logo">   
        <div class="box-float">
         <i class="fa-solid fa-arrow-up"></i>
+    </div>
+  </a>
+
+
+  <a href="/post">
+    <div class="box-flot-add">
+      <i class="fa-solid fa-plus"></i>
     </div>
   </a>
   </body>
