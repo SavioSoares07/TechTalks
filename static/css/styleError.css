@@ -1,0 +1,22 @@
+body {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  width: 100vw;
+}
+h1 {
+  text-align: center;
+  padding: 20px;
+  font-size: 2.5rem;
+  text-transform: uppercase;
+}
+img {
+  width: 400px;
+  height: 400px;
+}
+a {
+  transition: 500ms all;
+}
+a:hover {
+  transform: scale(1.2);
+}

@@ -25,6 +25,7 @@ func main() {
 	http.HandleFunc("/registerPost", handlers.RegisterPostHandler)
 	http.HandleFunc("/login", handlers.LoginHandler)
 	http.HandleFunc("/responder", handlers.ResponsePostHandler)
+	http.HandleFunc("/error", handlers.ErrorPageHandler)
 	
 	http.Handle("/uploads/", http.StripPrefix("/uploads/", http.FileServer(http.Dir("./uploads"))))
 

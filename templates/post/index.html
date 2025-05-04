@@ -21,24 +21,45 @@
 
     <main>
       <h1>Faça sua postagem</h1>
+      <form
+        method="post"
+        action="/registerPost"
+        enctype="multipart/form-data"
+        class="post-form"
+      >
+        <div class="form-group">
+          <label for="title">Título:</label>
+          <input
+            required
+            type="text"
+            name="title"
+            id="title"
+            class="form-input"
+          />
+        </div>
 
-      <form method="post" action="/registerPost" enctype="multipart/form-data">
-        <label>
-          <span>Título:</span><br />
-          <input required type="text" name="title" />
-        </label>
+        <div class="form-group">
+          <label for="description">Descrição:</label>
+          <textarea
+            required
+            name="description"
+            id="description"
+            class="form-textarea"
+          ></textarea>
+        </div>
 
-        <label>
-          <span>Descrição:</span><br />
-          <textarea required name="description"></textarea>
-        </label>
+        <div class="form-group">
+          <label for="image">Adicionar imagem:</label>
+          <input
+            type="file"
+            name="image"
+            id="image"
+            class="form-file"
+            accept="image/*"
+          />
+        </div>
 
-        <label>
-          Adicionar imagem
-          <input type="file" name="image" accept="image/*" />
-        </label>
-
-        <button>Postar</button>
+        <button type="submit" class="form-button">Postar</button>
       </form>
     </main>
   </body>

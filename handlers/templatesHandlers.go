@@ -2,7 +2,6 @@ package handlers
 
 import (
 	"database/sql"
-	"fmt"
 	"html/template"
 	"log"
 	"net/http"
@@ -35,6 +34,7 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) {
 	_, err := r.Cookie("user_id")
 	if err != nil {
 		http.Error(w, "Usuário não autenticado", http.StatusUnauthorized)
+		
 		return
 	}
 
@@ -72,14 +72,12 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		// Adicionando a URL da imagem
 		if imageURL.Valid {
 			p.ImageURL = imageURL.String
 		} else {
 			p.ImageURL = ""
 		}
 
-		// Parse do timestamp para a data
 		parsedTime, err := time.Parse("2006-01-02 15:04:05", createdAtStr)
 		if err != nil {
 			log.Printf("Erro ao fazer parse da data: %v", err)
@@ -90,7 +88,6 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) {
 		}
 		p.DateStr = p.CreatedAt.Format("02/01/2006 15:04")
 
-		// Buscar respostas para cada post
 		var responses []Response
 		responseRows, err := database.DB.Query(`
 			SELECT r.id, r.content, r.created_at, u.nickname
@@ -125,7 +122,6 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) {
 			responses = append(responses, r)
 		}
 
-		// Adicionar respostas ao post
 		p.Responses = responses
 		responseRows.Close() 
 		posts = append(posts, p)
@@ -147,7 +143,11 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-
+// Error Page
+func ErrorPageHandler(w http.ResponseWriter, r *http.Request){
+	tmpl, _ := template.ParseFiles("templates/error/index.html")
+	tmpl.Execute(w,nil)
+}
 
 //Login Page
 
@@ -172,8 +172,7 @@ func ProfileHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	userID := cookie.Value // aqui já é "6", por exemplo
-	fmt.Println("userID:", userID)
+	userID := cookie.Value 
 
 	rows, err := database.DB.Query(`
 		SELECT id, user_id, title, description, created_at FROM posts WHERE user_id = ?
