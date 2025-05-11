@@ -2,21 +2,21 @@ package handlers
 
 import (
 	"database/sql"
-	"fmt"
+	"html/template"
 	"net/http"
 	"techTalk/database"
 
 	"golang.org/x/crypto/bcrypt"
 )
 
-func LoginHandler(w http.ResponseWriter, r *http.Request){
-	if r.Method != http.MethodPost{
-		http.Error(w, "Método não permitido", http.StatusMethodNotAllowed)
+func LoginHandler(w http.ResponseWriter, r *http.Request) {
+	if r.Method != http.MethodPost {
+		http.ServeFile(w, r, "templates/signin/index.html")
 		return
 	}
 
-	if err := r.ParseForm(); err != nil{
-		http.Error(w, "Erro ao processar o formulário", http.StatusBadRequest)
+	if err := r.ParseForm(); err != nil {
+		renderLoginWithError(w, "Erro ao processar o formulário")
 		return
 	}
 
@@ -28,29 +28,36 @@ func LoginHandler(w http.ResponseWriter, r *http.Request){
 
 	err := database.DB.QueryRow("SELECT id, password FROM users WHERE email = ?", email).Scan(&userID, &storeHash)
 
-	if err == sql.ErrNoRows{
-		http.Error(w, "Usuário não encontrado", http.StatusUnauthorized)
+	if err == sql.ErrNoRows {
+		renderLoginWithError(w, "Usuário não encontrado")
 		return
-	} else if err != nil{
-		http.Error(w, "Erro ao conectar no banco de dados",http.StatusInternalServerError)
+	} else if err != nil {
+		renderLoginWithError(w, "Erro no servidor")
 		return
 	}
-
-	
 
 	if err := bcrypt.CompareHashAndPassword([]byte(storeHash), []byte(password)); err != nil {
-		http.Error(w, "Senha invalida", http.StatusUnauthorized)
+		renderLoginWithError(w, "Senha inválida")
 		return
 	}
-	
 
 	http.SetCookie(w, &http.Cookie{
-		Name: "user_id",
-		Value: userID,
-		Path: "/",
+		Name:     "user_id",
+		Value:    userID,
+		Path:     "/",
 		HttpOnly: true,
 	})
 
-	fmt.Println("Usuário logado com sucesso")
 	http.Redirect(w, r, "/home", http.StatusSeeOther)
+}
+
+func renderLoginWithError(w http.ResponseWriter, errorMessage string) {
+	tmpl, err := template.ParseFiles("templates/signin/index.html")
+	if err != nil {
+		http.Error(w, "Erro interno do servidor", http.StatusInternalServerError)
+		return
+	}
+	tmpl.Execute(w, map[string]string{
+		"Error": errorMessage,
+	})
 }

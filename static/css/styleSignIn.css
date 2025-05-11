@@ -1,5 +1,16 @@
 body {
   max-height: 100vh;
+  padding: 20px;
+}
+.promptErro {
+  display: inline-block;
+  background-color: #777;
+  padding: 10px;
+  color: #fff;
+  border-radius: 10px;
+
+  animation: fadeOut 2s ease forwards;
+  animation-delay: 5s;
 }
 main {
   display: flex;
@@ -105,5 +116,15 @@ footer span {
 @media (max-width: 1000px) {
   section#banner {
     display: none;
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+    visibility: hidden;
   }
 }

@@ -5,9 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Faça seu login</title>
     <link rel="stylesheet" href="/static/css/styleSignIn.css" />
+
     <link rel="stylesheet" href="/static/css/global.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
   </head>
   <body>
+    {{if .Error}}
+    <div class="promptErro">{{.Error}} <i class="fa-solid fa-x"></i></div>
+    {{end}}
     <main>
       <section id="banner">
         <img src="../../static/img/log_in3.svg" alt="" />

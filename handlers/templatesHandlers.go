@@ -33,7 +33,8 @@ type Post struct {
 func HomeHandler(w http.ResponseWriter, r *http.Request) {
 	_, err := r.Cookie("user_id")
 	if err != nil {
-		http.Error(w, "Usuário não autenticado", http.StatusUnauthorized)
+		http.ServeFile(w, r, "templates/errors/index.html")
+
 		
 		return
 	}
@@ -47,8 +48,8 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) {
 	`)
 
 	if err != nil {
-		http.Error(w, "Erro ao buscar posts", http.StatusInternalServerError)
-		log.Printf("Erro DB: %v", err)
+		http.ServeFile(w, r, "templates/errors/index.html")
+
 		return
 	}
 	defer rows.Close()
@@ -67,8 +68,8 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) {
 			&imageURL,
 			&p.AuthorName,
 		); err != nil {
-			http.Error(w, "Erro ao ler os dados", http.StatusInternalServerError)
-			log.Printf("Erro scan: %v", err)
+			http.ServeFile(w, r, "templates/errors/index.html")
+
 			return
 		}
 
