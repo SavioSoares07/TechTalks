@@ -26,6 +26,8 @@ func main() {
 	http.HandleFunc("/login", handlers.LoginHandler)
 	http.HandleFunc("/responder", handlers.ResponsePostHandler)
 	http.HandleFunc("/error", handlers.ErrorPageHandler)
+	http.HandleFunc("/delete-post", handlers.DeletePostHandler)
+
 	
 	http.Handle("/uploads/", http.StripPrefix("/uploads/", http.FileServer(http.Dir("./uploads"))))
 

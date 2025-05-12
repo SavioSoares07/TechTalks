@@ -27,18 +27,23 @@
     <section>
       <h1>Seus posts</h1>
 
-      {{range .}}
-      <div class="card-container">
-        <div class="card-header">
-          <h2>{{.Title}}</h2>
-          <i class="fa-solid fa-trash"></i>
-        </div>
-        <p>{{.Description}}</p>
-        <small>Publicado em: {{.DateStr}}</small>
+    {{range .}}
+    <div class="card-container">
+      <div class="card-header">
+        <h2>{{.Title}}</h2>
+        <form method="POST" action="/delete-post" style="display: inline;">
+          <input type="hidden" name="post_id" value="{{.ID}}">
+          <button type="submit" style="background: none; border: none; cursor: pointer;">
+            <i class="fa-solid fa-trash"></i>
+          </button>
+        </form>
       </div>
-      {{else}}
-      <p>Você ainda não criou nenhum post.</p>
-      {{end}}
-    </section>
+      <p>{{.Description}}</p>
+      <small>Publicado em: {{.DateStr}}</small>
+    </div>
+    {{else}}
+    <p>Você ainda não criou nenhum post.</p>
+    {{end}}
+
   </body>
 </html>

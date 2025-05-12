@@ -5,6 +5,7 @@ import (
 	"html/template"
 	"log"
 	"net/http"
+	"strconv"
 	"techTalk/database"
 	"time"
 )
@@ -24,6 +25,7 @@ type Post struct {
 	CreatedAt   time.Time
 	DateStr     string
 	ImageURL    string
+	Link        string
 	Responses   []Response  
 }
 
@@ -41,7 +43,7 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) {
 
 	// Buscar posts
 	rows, err := database.DB.Query(`
-		SELECT p.id, p.title, p.description, p.created_at, p.image_url, u.nickname
+		SELECT p.id, p.title, p.description, p.created_at, p.image_url, p.link, u.nickname
 		FROM posts p
 		JOIN users u ON p.user_id = u.id
 		ORDER BY p.created_at DESC
@@ -59,6 +61,7 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) {
 		var p Post
 		var createdAtStr string
 		var imageURL sql.NullString
+		var link sql.NullString
 
 		if err := rows.Scan(
 			&p.ID,
@@ -66,11 +69,15 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) {
 			&p.Description,
 			&createdAtStr,
 			&imageURL,
+			&link,
 			&p.AuthorName,
 		); err != nil {
 			http.ServeFile(w, r, "templates/errors/index.html")
 
 			return
+		}
+		if link.Valid {
+			p.Link = link.String
 		}
 
 		if imageURL.Valid {
@@ -266,4 +273,52 @@ func ResponsePostHandler(w http.ResponseWriter, r *http.Request){
 	}
 	http.Redirect(w, r, "/home", http.StatusSeeOther)
 
+}
+
+func DeletePostHandler(w http.ResponseWriter, r *http.Request) {
+	if r.Method != http.MethodPost {
+		http.Error(w, "Método não permitido", http.StatusMethodNotAllowed)
+		return
+	}
+
+	cookie, err := r.Cookie("user_id")
+	if err != nil {
+		http.Error(w, "Não autorizado", http.StatusUnauthorized)
+		return
+	}
+	userIDStr := cookie.Value
+
+	postIDStr := r.FormValue("post_id")
+	if postIDStr == "" {
+		http.Error(w, "ID do post ausente", http.StatusBadRequest)
+		return
+	}
+
+	// Conversão de string para int
+	userID, err := strconv.Atoi(userIDStr)
+	if err != nil {
+		http.Error(w, "ID do usuário inválido", http.StatusBadRequest)
+		return
+	}
+
+	postID, err := strconv.Atoi(postIDStr)
+	if err != nil {
+		http.Error(w, "ID do post inválido", http.StatusBadRequest)
+		return
+	}
+
+	// Deleta apenas se o post for do usuário autenticado
+	result, err := database.DB.Exec("DELETE FROM posts WHERE id = ? AND user_id = ?", postID, userID)
+	if err != nil {
+		http.Error(w, "Erro ao deletar post", http.StatusInternalServerError)
+		return
+	}
+
+	rowsAffected, _ := result.RowsAffected()
+	if rowsAffected == 0 {
+		http.Error(w, "Post não encontrado ou não autorizado", http.StatusForbidden)
+		return
+	}
+
+	http.Redirect(w, r, "/profile", http.StatusSeeOther)
 }

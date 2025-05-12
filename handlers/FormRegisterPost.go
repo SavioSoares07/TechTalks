@@ -8,30 +8,32 @@ import (
 	"time"
 )
 
-	func RegisterPostHandler(w http.ResponseWriter, r *http.Request) {
-		if r.Method != http.MethodPost {
-			http.Error(w, "Método não permitido", http.StatusMethodNotAllowed)
-			return
-		}
+func RegisterPostHandler(w http.ResponseWriter, r *http.Request) {
+	if r.Method != http.MethodPost {
+		http.Error(w, "Método não permitido", http.StatusMethodNotAllowed)
+		return
+	}
 
-		r.ParseMultipartForm(10 << 20)
+	r.ParseMultipartForm(10 << 20)
 
-		cookie, err := r.Cookie("user_id")
-		if err != nil {
-			http.Error(w, "Usuário não encontrado", http.StatusUnauthorized)
-			return
-		}
+	cookie, err := r.Cookie("user_id")
+	if err != nil {
+		http.Error(w, "Usuário não encontrado", http.StatusUnauthorized)
+		return
+	}
 
-		title := r.FormValue("title")
-		description := r.FormValue("description")
-		userID := cookie.Value
+	title := r.FormValue("title")
+	description := r.FormValue("description")
+	link := r.FormValue("link")
 
-		file, handler, err := r.FormFile("image")
-		if err != nil {
-			http.Error(w, "Erro ao ler o arquivo", http.StatusBadRequest)
-			return
-		}
+	userID := cookie.Value
+
+	var imageURL string
+
+	file, handler, err := r.FormFile("image")
+	if err == nil {
 		defer file.Close()
+
 		err = os.MkdirAll("./uploads", os.ModePerm)
 		if err != nil {
 			http.Error(w, "Erro ao criar diretório", http.StatusInternalServerError)
@@ -51,17 +53,23 @@ import (
 			return
 		}
 
-		imageURL := "/uploads/" + handler.Filename
-
-		_, err = database.DB.Exec(`
-			INSERT INTO posts (title, description, user_id, created_at, image_url)
-			VALUES (?, ?, ?, ?, ?)
-		`, title, description, userID, time.Now(), imageURL)
-
-		if err != nil {
-			http.Error(w, "Erro ao salvar no banco de dados", http.StatusInternalServerError)
-			return
-		}
-
-		http.Redirect(w, r, "/home", http.StatusSeeOther)
+		imageURL = "/uploads/" + handler.Filename
+	} else {
+		// Se não tiver imagem, apenas continue. imageURL ficará vazio
+		imageURL = ""
 	}
+
+	_, err = database.DB.Exec(`
+		INSERT INTO posts (title, description, user_id, created_at, image_url, link)
+		VALUES (?, ?, ?, ?, ?, ?)
+	`, title, description, userID, time.Now(), imageURL, link)
+
+
+	if err != nil {
+		http.Error(w, "Erro ao salvar no banco de dados", http.StatusInternalServerError)
+		return
+	}
+
+	http.Redirect(w, r, "/home", http.StatusSeeOther)
+}
+
