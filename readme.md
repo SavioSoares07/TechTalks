@@ -36,7 +36,6 @@ go run main.go
 
 **Dependências** Ozzo Validation, Driver MySql, Crypto
 
-> **Se o projeto tiver `.env` ou migrar DB, adicione instruções aqui.**
 
 ---
 
