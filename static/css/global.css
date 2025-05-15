@@ -26,10 +26,6 @@ a {
   text-decoration: none;
 }
 
-a:hover {
-  color: var(--color-accent);
-}
-
 button {
   background-color: var(--color-primary);
   color: var(--color-bg);
@@ -55,12 +51,19 @@ a {
 }
 nav {
   background-color: var(--color-bg-secondary);
-
   display: flex;
   align-items: center;
   justify-content: space-around;
 
   padding: 20px;
+}
+nav .logo {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+nav .logo img {
+  height: 40px;
 }
 nav h1 {
   cursor: default;
@@ -75,11 +78,34 @@ nav ul {
 
 nav ul li {
   padding: 10px;
+  display: block;
+  padding-left: 1.25rem;
+  padding-right: 1.25rem;
+  background-color: #3c3c52;
+  color: #000;
+  font-size: 0.875rem;
+  font-weight: 500;
+  border-radius: 0.5rem;
+  text-transform: uppercase;
 }
+
+nav ul li:hover {
+  padding: 10px;
+  display: block;
+  padding-left: 1.25rem;
+  padding-right: 1.25rem;
+  background-color: #17b8a6;
+  text-decoration-color: #000;
+  font-size: 0.875rem;
+  font-weight: 500;
+  border-radius: 0.5rem;
+  text-transform: uppercase;
+}
+
 nav ul li:last-child {
   background-color: var(--color-bg);
   border-radius: 5px;
 }
 nav ul a {
-  color: var(--color-text);
+  color: #fff;
 }
